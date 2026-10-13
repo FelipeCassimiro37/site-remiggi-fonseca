@@ -1,0 +1,48 @@
+---
+/**
+ * Aviso de cookies (LGPD).
+ * A escolha fica guardada no navegador (localStorage) e pode ser alterada
+ * pelo link "Preferências de cookies" no rodapé.
+ * O Google Analytics só é carregado após "Aceitar".
+ */
+---
+<section
+  class="cookie-banner"
+  id="cookie-banner"
+  aria-labelledby="cookie-titulo"
+  aria-describedby="cookie-texto"
+  hidden
+>
+  <div class="container container--wide cookie-banner__inner">
+    <div>
+      <h2 id="cookie-titulo" class="cookie-banner__titulo">Cookies e privacidade</h2>
+      <p id="cookie-texto">
+        Usamos cookies do Google Analytics para entender como o site é utilizado. Eles só são ativados se você aceitar.
+        Saiba mais na <a href="/politica-de-privacidade/" class="link-underline">Política de Privacidade</a>.
+      </p>
+    </div>
+    <div class="cookie-banner__acoes">
+      <button type="button" class="button" data-consentimento="recusar">Recusar</button>
+      <button type="button" class="button button--solid" data-consentimento="aceitar">Aceitar</button>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cookie-banner {
+    position: fixed;
+    inset: auto 0 0 0;
+    z-index: 70;
+    background-color: var(--color-surface);
+    border-top: 1px solid var(--color-green);
+    box-shadow: 0 -6px 20px rgb(33 45 32 / 0.12);
+    padding-block: var(--space-6);
+    font-size: var(--text-sm);
+  }
+  .cookie-banner[hidden] { display: none; }
+  .cookie-banner__inner { display: flex; align-items: center; justify-content: space-between; gap: var(--space-6) var(--space-12); flex-wrap: wrap; }
+  .cookie-banner__titulo { font-size: var(--text-lg); margin-bottom: var(--space-1); }
+  .cookie-banner p { color: var(--color-ink-soft); max-width: 46rem; line-height: var(--leading-normal); }
+  .cookie-banner__acoes { display: flex; gap: var(--space-3); flex-wrap: wrap; }
+  .cookie-banner .button { padding-inline: var(--space-6); }
+</style>

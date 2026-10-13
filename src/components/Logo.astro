@@ -1,0 +1,27 @@
+---
+interface Props {
+  completo?: boolean;
+}
+const { completo = false } = Astro.props;
+---
+<span class:list={['logo', { 'logo--full': completo }]}>
+  <span class="logo__mark" aria-hidden="true">
+    <span class="logo__letter">R</span><span class="logo__bar"></span><span class="logo__letter">F</span>
+  </span>
+  <span class="logo__divider" aria-hidden="true"></span>
+  <span class="logo__words">
+    <span class="logo__name">Remiggi &amp; Fonseca</span>
+    {completo && <span class="logo__assoc">Advogados Associados</span>}
+  </span>
+</span>
+
+<style>
+  .logo { display: inline-flex; align-items: center; gap: 0.55em; line-height: 1; color: currentColor; font-family: var(--font-display); }
+  .logo__mark { display: inline-flex; align-items: center; gap: 0.14em; border: 1px solid; padding: 0.32em 0.4em; }
+  .logo__letter { font-size: 1.5em; font-weight: 600; letter-spacing: 0.02em; }
+  .logo__bar { width: 1px; height: 1.5em; background-color: currentColor; }
+  .logo__divider { width: 1px; height: 2.4em; background-color: currentColor; opacity: 0.55; }
+  .logo__words { display: inline-flex; flex-direction: column; gap: 0.28em; }
+  .logo__name { font-size: 1.15em; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; }
+  .logo__assoc { font-family: var(--font-body); font-size: 0.6em; font-weight: 600; letter-spacing: var(--tracking-label); text-transform: uppercase; color: rgb(255 255 255 / 0.75); }
+</style>

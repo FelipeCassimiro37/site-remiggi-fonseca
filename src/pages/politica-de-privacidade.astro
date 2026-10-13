@@ -1,0 +1,217 @@
+---
+/**
+ * POLÍTICA DE PRIVACIDADE — MINUTA PARA REVISÃO JURÍDICA.
+ * Os dados do controlador, prazos e o encarregado vêm de src/config/site.ts.
+ * Revise o texto com os sócios antes de retirar o aviso de minuta (variável `minuta` abaixo).
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import EmailLink from '../components/EmailLink.astro';
+import { site, preenchido } from '../config/site';
+
+const minuta = true;
+const p = site.privacidade;
+const P = (v: string) => ({ pendente: !preenchido(v) });
+---
+<BaseLayout
+  titulo="Política de Privacidade"
+  descricao="Como o escritório Remiggi & Fonseca trata os dados pessoais coletados neste site, em conformidade com a Lei Geral de Proteção de Dados (LGPD)."
+  migalhas={[{ nome: 'Política de Privacidade', caminho: '/politica-de-privacidade/' }]}
+>
+  <header class="page-header">
+    <div class="container container--prose">
+      <p class="eyebrow">Privacidade</p>
+      <hr class="rule" />
+      <h1>Política de Privacidade</h1>
+      <hr class="rule" />
+      {minuta && (
+        <p class="aviso-minuta" role="note">
+          <strong>Minuta para revisão.</strong> Este texto é uma versão preliminar e deve ser revisado pelos responsáveis do
+          escritório antes de ser considerado definitivo.
+        </p>
+      )}
+      <p class="lead">
+        Esta política explica quais dados pessoais são coletados neste site, para que são usados, com quem são
+        compartilhados e como você pode exercer seus direitos, nos termos da Lei nº 13.709/2018 (Lei Geral de Proteção de
+        Dados Pessoais — LGPD).
+      </p>
+      <p class="atualizacao">Última atualização: <span class:list={P(p.atualizadaEm)}>{p.atualizadaEm}</span></p>
+    </div>
+  </header>
+
+  <article class="section politica">
+    <div class="container container--prose">
+      <section aria-labelledby="pp-1">
+        <h2 id="pp-1">1. Controlador dos dados</h2>
+        <p>O controlador dos dados pessoais tratados neste site é:</p>
+        <ul class="lista-traco">
+          <li><span class:list={P(site.razaoSocial)}>{site.razaoSocial}</span></li>
+          <li>CNPJ <span class:list={P(site.cnpj)}>{site.cnpj}</span></li>
+          {preenchido(site.registroOab) && <li>Registro na {site.registroOab}</li>}
+          <li>Canal de contato sobre privacidade: <EmailLink email={site.contato.emailPrivacidade} origem="politica" class="link-underline" /></li>
+          <li>Encarregado pelo tratamento de dados: <span class:list={P(p.encarregado)}>{p.encarregado}</span></li>
+        </ul>
+      </section>
+
+      <section aria-labelledby="pp-2">
+        <h2 id="pp-2">2. Dados coletados</h2>
+        <h3>2.1 Formulário de contato</h3>
+        <p>Nome, telefone/WhatsApp, assunto, resumo da solicitação e o registro de que você concordou com esta política.</p>
+        <h3>2.2 Contato por WhatsApp ou e-mail</h3>
+        <p>Os dados que você mesmo enviar ao iniciar a conversa, como nome, número de telefone, endereço de e-mail e o conteúdo da mensagem.</p>
+        <h3>2.3 Dados de navegação (somente com o seu consentimento)</h3>
+        <p>
+          Se você clicar em “Aceitar” no aviso de cookies, o Google Analytics coleta informações sobre o uso do site: páginas
+          visitadas, tempo de permanência, origem do acesso, tipo de dispositivo e navegador, localização aproximada (cidade e
+          país) e interações como cliques nos botões de WhatsApp e e-mail e o envio do formulário. Se você recusar, essas
+          informações não são coletadas.
+        </p>
+        <h3>2.4 Preferência de cookies</h3>
+        <p>A sua escolha (aceitar ou recusar) fica guardada apenas no seu próprio navegador e não é enviada ao escritório.</p>
+        <h3>2.5 Registros técnicos</h3>
+        <p>O provedor de hospedagem do site pode registrar dados técnicos de acesso, como endereço IP, data e hora, para fins de segurança e funcionamento do serviço.</p>
+        <p class="destaque">
+          Pedimos que não envie, pelos canais deste site, documentos ou dados pessoais sensíveis (como informações de saúde).
+          Eles poderão ser solicitados depois, por meio adequado, se forem necessários ao atendimento.
+        </p>
+      </section>
+
+      <section aria-labelledby="pp-3">
+        <h2 id="pp-3">3. Finalidades e bases legais</h2>
+        <div class="tabela-wrap">
+          <table>
+            <caption class="visually-hidden">Finalidades do tratamento e respectivas bases legais</caption>
+            <thead>
+              <tr><th scope="col">Finalidade</th><th scope="col">Dados</th><th scope="col">Base legal (LGPD)</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Responder à sua solicitação e agendar uma conversa inicial</td>
+                <td>Formulário, WhatsApp e e-mail</td>
+                <td>Procedimentos preliminares relacionados a contrato, a pedido do titular (art. 7º, V)</td>
+              </tr>
+              <tr>
+                <td>Medir a audiência do site e o desempenho dos canais de contato</td>
+                <td>Dados de navegação (Google Analytics)</td>
+                <td>Consentimento (art. 7º, I), que pode ser revogado a qualquer momento</td>
+              </tr>
+              <tr>
+                <td>Prevenir envios automatizados (spam) e manter a segurança do site</td>
+                <td>Dados do formulário e registros técnicos</td>
+                <td>Legítimo interesse (art. 7º, IX)</td>
+              </tr>
+              <tr>
+                <td>Cumprir obrigações legais e defender direitos</td>
+                <td>Registros de contato e registros técnicos</td>
+                <td>Cumprimento de obrigação legal (art. 7º, II) e exercício regular de direitos (art. 7º, VI)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section aria-labelledby="pp-4">
+        <h2 id="pp-4">4. Compartilhamento com terceiros</h2>
+        <p>Os dados não são vendidos. Eles são compartilhados apenas com os prestadores necessários ao funcionamento do site:</p>
+        <ul class="lista-traco">
+          <li>
+            <strong>Google Analytics (Google LLC)</strong> — medição de audiência, somente com o seu consentimento. Os dados podem
+            ser processados em servidores fora do Brasil, observadas as regras de transferência internacional da LGPD (art. 33).
+          </li>
+          <li>
+            <strong>Web3Forms</strong> — serviço que recebe os dados do formulário de contato e os encaminha ao e-mail do escritório.
+          </li>
+          <li>
+            <strong>WhatsApp (Meta)</strong> — quando você escolhe falar pelo WhatsApp, ou quando o formulário abre o aplicativo com a
+            sua mensagem, a comunicação passa a ocorrer pelo WhatsApp, sujeita também à política de privacidade desse serviço.
+          </li>
+          <li><strong>Provedor de hospedagem</strong> — <span class:list={P(p.hospedagem)}>{p.hospedagem}</span>.</li>
+          <li>Autoridades públicas, quando houver obrigação legal ou ordem judicial.</li>
+        </ul>
+      </section>
+
+      <section aria-labelledby="pp-5">
+        <h2 id="pp-5">5. Cookies</h2>
+        <div class="tabela-wrap">
+          <table>
+            <caption class="visually-hidden">Cookies e armazenamento local utilizados</caption>
+            <thead>
+              <tr><th scope="col">Nome</th><th scope="col">Responsável</th><th scope="col">Finalidade</th><th scope="col">Quando é usado</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>_ga</code>, <code>_ga_*</code></td><td>Google Analytics</td><td>Distinguir visitantes e sessões para fins estatísticos</td><td>Somente após “Aceitar”</td></tr>
+              <tr><td><code>rf-consentimento</code> (armazenamento local)</td><td>Este site</td><td>Lembrar a sua escolha sobre cookies</td><td>Após aceitar ou recusar</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>
+          Você pode mudar a sua escolha a qualquer momento:
+          <button type="button" class="button-link" data-abrir-cookies>alterar preferências de cookies</button>.
+        </p>
+      </section>
+
+      <section aria-labelledby="pp-6">
+        <h2 id="pp-6">6. Prazo de retenção</h2>
+        <ul class="lista-traco">
+          <li>Solicitações de contato (formulário, WhatsApp e e-mail): <span class:list={P(p.prazoRetencaoContatos)}>{p.prazoRetencaoContatos}</span>.</li>
+          <li>Dados do Google Analytics: <span class:list={P(p.prazoRetencaoAnalytics)}>{p.prazoRetencaoAnalytics}</span>, conforme configuração da conta.</li>
+          <li>Preferência de cookies: até você apagar os dados de navegação do seu navegador.</li>
+          <li>Se o contato resultar na contratação de serviços, os dados passam a ser tratados conforme o contrato e as obrigações legais e profissionais aplicáveis.</li>
+        </ul>
+      </section>
+
+      <section aria-labelledby="pp-7">
+        <h2 id="pp-7">7. Direitos do titular</h2>
+        <p>Nos termos do art. 18 da LGPD, você pode solicitar, a qualquer momento:</p>
+        <ul class="lista-traco">
+          <li>confirmação da existência de tratamento e acesso aos dados;</li>
+          <li>correção de dados incompletos, inexatos ou desatualizados;</li>
+          <li>anonimização, bloqueio ou eliminação de dados desnecessários, excessivos ou tratados em desconformidade com a lei;</li>
+          <li>portabilidade dos dados a outro fornecedor de serviço;</li>
+          <li>eliminação dos dados tratados com base no consentimento;</li>
+          <li>informação sobre as entidades com as quais os dados foram compartilhados;</li>
+          <li>informação sobre a possibilidade de não consentir e suas consequências;</li>
+          <li>revogação do consentimento;</li>
+          <li>oposição a tratamento realizado em desconformidade com a lei.</li>
+        </ul>
+        <p>Você também pode apresentar reclamação à Autoridade Nacional de Proteção de Dados (ANPD).</p>
+      </section>
+
+      <section aria-labelledby="pp-8">
+        <h2 id="pp-8">8. Canal de contato</h2>
+        <p>
+          Para exercer seus direitos ou tirar dúvidas sobre esta política, escreva para
+          <EmailLink email={site.contato.emailPrivacidade} origem="politica" class="link-underline" />.
+        </p>
+      </section>
+
+      <section aria-labelledby="pp-9">
+        <h2 id="pp-9">9. Segurança</h2>
+        <p>O site utiliza conexão criptografada (HTTPS). O acesso aos dados recebidos é restrito às pessoas do escritório responsáveis pelo atendimento.</p>
+      </section>
+
+      <section aria-labelledby="pp-10">
+        <h2 id="pp-10">10. Alterações desta política</h2>
+        <p>Esta política pode ser atualizada. A data da última atualização aparece no início da página.</p>
+      </section>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .aviso-minuta { margin-block: var(--space-6); padding: var(--space-4) var(--space-6); border: 1px dashed var(--color-accent-text); background-color: var(--color-surface); font-size: var(--text-sm); }
+  .atualizacao { margin-top: var(--space-4); font-size: var(--text-sm); color: var(--color-ink-soft); }
+  .politica { padding-top: 0; }
+  .politica section + section { margin-top: var(--space-12); }
+  .politica h2 { font-size: var(--text-2xl); margin-bottom: var(--space-4); }
+  .politica h3 { font-size: var(--text-lg); font-family: var(--font-body); font-weight: 600; color: var(--color-ink); margin-top: var(--space-6); margin-bottom: var(--space-2); }
+  .politica p + p, .politica p + ul, .politica ul + p { margin-top: var(--space-4); }
+  .politica .lista-traco { margin-top: var(--space-4); }
+  .destaque { margin-top: var(--space-6) !important; padding-left: var(--space-4); border-left: 2px solid var(--color-green); color: var(--color-ink-soft); }
+  .tabela-wrap { overflow-x: auto; margin-top: var(--space-4); }
+  table { width: 100%; border-collapse: collapse; font-size: var(--text-sm); line-height: var(--leading-normal); min-width: 32rem; }
+  th, td { text-align: left; vertical-align: top; padding: var(--space-3); border-bottom: 1px solid var(--color-line); }
+  th { font-weight: 600; color: var(--color-green); border-bottom-color: var(--color-green); }
+  code { font-size: 0.9em; background-color: var(--color-surface-alt); padding: 0 0.25em; }
+  .button-link { background: none; border: 0; padding: 0; color: inherit; cursor: pointer; border-bottom: 1px solid var(--color-accent-text); }
+  .button-link:hover { border-color: var(--color-green); }
+</style>

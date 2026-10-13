@@ -1,0 +1,82 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import WhatsAppLink from '../../components/WhatsAppLink.astro';
+import { servicos, type Servico } from '../../data/servicos';
+import { servicoSchema } from '../../lib/schema';
+
+export function getStaticPaths() {
+  return servicos.map((servico) => ({ params: { slug: servico.slug }, props: { servico } }));
+}
+
+interface Props { servico: Servico }
+const { servico } = Astro.props;
+const outras = servicos.filter((s) => s.slug !== servico.slug);
+---
+<BaseLayout
+  titulo={servico.titulo}
+  descricao={servico.descricaoSeo}
+  migalhas={[
+    { nome: 'Áreas de atuação', caminho: '/areas-de-atuacao/' },
+    { nome: servico.titulo, caminho: `/areas-de-atuacao/${servico.slug}/` },
+  ]}
+  schema={[servicoSchema(servico.slug)]}
+>
+  <header class="page-header">
+    <div class="container container--prose">
+      <p class="eyebrow">Área de atuação</p>
+      <hr class="rule" />
+      <h1>{servico.titulo}</h1>
+      <hr class="rule" />
+      {servico.texto.map((p) => <p class="lead">{p}</p>)}
+      <div class="servico__acao">
+        <WhatsAppLink origem={`servico-${servico.slug}`} mensagem={servico.mensagemWhatsApp} class="button button--solid">
+          Falar sobre {servico.titulo}
+        </WhatsAppLink>
+      </div>
+    </div>
+  </header>
+
+  <section class="section section--alt">
+    <div class="container servico__grid">
+      <div>
+        <h2 class="eyebrow">Temas tratados</h2>
+        <hr class="rule" />
+        <ul class="lista-traco servico__temas">{servico.temas.map((t) => <li>{t}</li>)}</ul>
+      </div>
+      <div>
+        <h2 class="eyebrow">Público atendido</h2>
+        <hr class="rule" />
+        <ul class="lista-traco">{servico.publico.map((p) => <li>{p}</li>)}</ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2 class="eyebrow">Outras áreas</h2>
+      <hr class="rule" />
+      <ul class="outras">
+        {outras.map((s) => <li><a href={`/areas-de-atuacao/${s.slug}/`} class="link-underline">{s.titulo}</a></li>)}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section--green cta">
+    <div class="container">
+      <h2>Tem uma questão de {servico.titulo.toLowerCase()}?</h2>
+      <p class="lead">Envie um resumo do caso pelo WhatsApp e retornaremos para agendar uma conversa inicial.</p>
+      <WhatsAppLink origem={`servico-${servico.slug}-rodape`} mensagem={servico.mensagemWhatsApp} class="button" />
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-header .lead + .lead { margin-top: var(--space-4); }
+  .servico__acao { margin-top: var(--space-8); }
+  .servico__grid { display: grid; grid-template-columns: 2fr 1fr; gap: var(--space-12); }
+  .servico__temas { grid-template-columns: repeat(auto-fit, minmax(min(16rem, 100%), 1fr)); column-gap: var(--space-8); }
+  .outras { list-style: none; display: flex; flex-wrap: wrap; gap: var(--space-4) var(--space-8); }
+  .cta { text-align: center; }
+  .cta .lead { margin: var(--space-4) auto var(--space-8); color: rgb(255 255 255 / 0.85); }
+  @media (width <= 46rem) { .servico__grid { grid-template-columns: 1fr; } }
+</style>

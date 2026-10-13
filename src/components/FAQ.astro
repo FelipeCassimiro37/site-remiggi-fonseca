@@ -1,0 +1,31 @@
+---
+import { faq } from '../data/faq';
+---
+<section class="section" aria-labelledby="faq-titulo" id="perguntas-frequentes">
+  <div class="container">
+    <div class="section-head">
+      <h2 id="faq-titulo" class="eyebrow">Perguntas frequentes</h2>
+      <hr class="rule" />
+    </div>
+    <div class="faq">
+      {faq.map((q) => (
+        <details class="faq__item">
+          <summary class="faq__pergunta"><h3>{q.pergunta}</h3></summary>
+          <p class="faq__resposta">{q.resposta}</p>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .faq { max-width: 52rem; border-top: 1px solid var(--color-line); }
+  .faq__item { border-bottom: 1px solid var(--color-line); }
+  .faq__pergunta { display: flex; justify-content: space-between; align-items: center; gap: var(--space-6); padding-block: var(--space-6); cursor: pointer; list-style: none; }
+  .faq__pergunta::-webkit-details-marker { display: none; }
+  .faq__pergunta h3 { font-size: var(--text-xl); }
+  .faq__pergunta::after { content: '+'; flex-shrink: 0; font-family: var(--font-display); font-size: var(--text-2xl); line-height: 1; color: var(--color-green); transition: transform var(--transition); }
+  .faq__item[open] .faq__pergunta::after { transform: rotate(45deg); }
+  .faq__pergunta:hover h3 { text-decoration: underline; text-decoration-color: var(--color-accent); text-underline-offset: 4px; }
+  .faq__resposta { padding-bottom: var(--space-6); color: var(--color-ink-soft); }
+</style>

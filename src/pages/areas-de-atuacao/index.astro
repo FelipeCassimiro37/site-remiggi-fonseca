@@ -1,0 +1,59 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import WhatsAppLink from '../../components/WhatsAppLink.astro';
+import { servicos } from '../../data/servicos';
+---
+<BaseLayout
+  titulo="Áreas de atuação"
+  descricao="Atuação do escritório em direito tributário, cível, trabalhista e contratual, no consultivo e no contencioso."
+  migalhas={[{ nome: 'Áreas de atuação', caminho: '/areas-de-atuacao/' }]}
+>
+  <header class="page-header">
+    <div class="container container--prose">
+      <p class="eyebrow">Áreas de atuação</p>
+      <hr class="rule" />
+      <h1>Consultivo e contencioso nas quatro áreas em que atuamos.</h1>
+      <hr class="rule" />
+      <p class="lead">Combinamos a orientação preventiva com a atuação em processos, para que a estratégia seja coerente do primeiro parecer à decisão final.</p>
+    </div>
+  </header>
+
+  <section class="section section--alt">
+    <div class="container">
+      <div class="lista-areas">
+        {servicos.map((s, i) => (
+          <article class="area">
+            <span class="area__indice" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+            <div>
+              <h2 class="area__titulo">{s.titulo}</h2>
+              {s.texto.map((p) => <p>{p}</p>)}
+              <a href={`/areas-de-atuacao/${s.slug}/`} class="link-underline area__mais">
+                Ver temas e público atendido<span class="visually-hidden"> — {s.titulo}</span>
+              </a>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section cta">
+    <div class="container">
+      <h2>Tem uma questão em aberto?</h2>
+      <p class="lead">Descreva a situação pelo WhatsApp e indicaremos se é matéria em que podemos atuar.</p>
+      <WhatsAppLink origem="areas-de-atuacao" class="button button--solid" />
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .lista-areas { display: grid; gap: var(--space-6); }
+  .area { display: grid; grid-template-columns: 4rem 1fr; gap: var(--space-6); padding: var(--space-8); background-color: var(--color-surface); border: 1px solid var(--color-line); }
+  .area__indice { font-family: var(--font-display); font-size: var(--text-2xl); color: var(--color-accent-text); line-height: 1; }
+  .area__titulo { font-size: var(--text-2xl); margin-bottom: var(--space-4); }
+  .area p { color: var(--color-ink-soft); }
+  .area__mais { display: inline-block; margin-top: var(--space-6); font-size: var(--text-sm); }
+  .cta { text-align: center; }
+  .cta .lead { margin: var(--space-4) auto var(--space-8); }
+  @media (width <= 40rem) { .area { grid-template-columns: 1fr; gap: var(--space-3); padding: var(--space-6); } }
+</style>

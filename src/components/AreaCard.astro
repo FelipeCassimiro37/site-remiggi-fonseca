@@ -1,0 +1,35 @@
+---
+import type { Servico } from '../data/servicos';
+interface Props {
+  servico: Servico;
+  indice: number;
+  nivel?: 'h2' | 'h3';
+}
+const { servico, indice, nivel = 'h3' } = Astro.props;
+const Titulo = nivel;
+---
+<article class="area-card">
+  <span class="area-card__index" aria-hidden="true">{String(indice).padStart(2, '0')}</span>
+  <hr class="area-card__rule" />
+  <Titulo class="area-card__title">
+    <a href={`/areas-de-atuacao/${servico.slug}/`} class="area-card__link">{servico.titulo}</a>
+  </Titulo>
+  <hr class="area-card__rule area-card__rule--full" />
+  <p class="area-card__desc">{servico.resumo}</p>
+  <span class="area-card__mais" aria-hidden="true">Saiba mais →</span>
+</article>
+
+<style>
+  .area-card { position: relative; display: flex; flex-direction: column; height: 100%; padding: var(--space-8); background-color: var(--color-surface); border: 1px solid var(--color-line); transition: border-color var(--transition); }
+  .area-card:hover, .area-card:focus-within { border-color: var(--color-green); }
+  .area-card__index { font-family: var(--font-display); font-size: var(--text-lg); color: var(--color-accent-text); }
+  .area-card__rule { width: var(--space-8); height: 1px; margin-block: var(--space-4); border: 0; background-color: var(--color-green); }
+  .area-card__rule--full { width: 100%; background-color: var(--color-line); }
+  .area-card__title { font-size: var(--text-xl); }
+  /* O link cobre o cartão inteiro, mantendo um único ponto de foco. */
+  .area-card__link::after { content: ''; position: absolute; inset: 0; }
+  .area-card__link:focus-visible { outline: none; }
+  .area-card:has(.area-card__link:focus-visible) { outline: 2px solid var(--color-green); outline-offset: 3px; }
+  .area-card__desc { flex: 1; color: var(--color-ink-soft); font-size: var(--text-sm); line-height: var(--leading-normal); }
+  .area-card__mais { margin-top: var(--space-6); font-size: var(--text-xs); text-transform: uppercase; letter-spacing: 0.12em; font-weight: 600; color: var(--color-green); }
+</style>

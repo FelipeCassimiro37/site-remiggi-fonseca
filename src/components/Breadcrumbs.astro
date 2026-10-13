@@ -1,0 +1,22 @@
+---
+import type { Migalha } from '../lib/schema';
+interface Props { itens: Migalha[] }
+const { itens } = Astro.props;
+---
+<nav class="breadcrumbs container container--wide" aria-label="Você está em">
+  <ol>
+    {itens.map((it, i) => (
+      <li>
+        {i < itens.length - 1 ? <a href={it.caminho}>{it.nome}</a> : <span aria-current="page">{it.nome}</span>}
+      </li>
+    ))}
+  </ol>
+</nav>
+
+<style>
+  .breadcrumbs { padding-top: var(--space-6); font-size: var(--text-xs); color: var(--color-ink-soft); }
+  .breadcrumbs ol { display: flex; flex-wrap: wrap; gap: var(--space-2); list-style: none; }
+  .breadcrumbs li + li::before { content: '/'; margin-right: var(--space-2); color: var(--color-accent); }
+  .breadcrumbs a { border-bottom: 1px solid var(--color-line); }
+  .breadcrumbs a:hover { border-color: var(--color-green); color: var(--color-green); }
+</style>

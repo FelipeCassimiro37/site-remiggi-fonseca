@@ -1,0 +1,12 @@
+---
+import { preenchido } from '../config/site';
+interface Props {
+  email: string;
+  origem: string;
+  class?: string;
+}
+const { email, origem, class: className } = Astro.props;
+---
+{preenchido(email) && (
+  <a href={`mailto:${email}`} class={className} data-track="email" data-origem={origem}><slot>{email}</slot></a>
+)}

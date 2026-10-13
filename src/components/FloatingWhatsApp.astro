@@ -1,0 +1,42 @@
+---
+import { linkWhatsApp } from '../config/site';
+const href = linkWhatsApp();
+---
+{href && (
+  <aside aria-label="Atalho para o WhatsApp">
+  <a
+    href={href}
+    class="wa-flutuante"
+    target="_blank"
+    rel="noopener"
+    data-track="whatsapp"
+    data-origem="flutuante"
+    aria-label="Falar no WhatsApp (abre em nova aba)"
+  >
+    <svg viewBox="0 0 32 32" width="24" height="24" aria-hidden="true" focusable="false">
+      <path fill="currentColor" d="M16.04 3C8.86 3 3.03 8.82 3.03 16c0 2.3.6 4.53 1.74 6.5L3 29l6.68-1.75A12.96 12.96 0 0 0 16.04 29C23.2 29 29 23.18 29 16S23.2 3 16.04 3Zm0 23.7c-2.02 0-4-.54-5.72-1.57l-.41-.24-3.97 1.04 1.06-3.86-.27-.4A10.66 10.66 0 0 1 5.36 16c0-5.9 4.8-10.7 10.68-10.7 5.89 0 10.67 4.8 10.67 10.7 0 5.9-4.78 10.7-10.67 10.7Zm5.86-8.01c-.32-.16-1.9-.94-2.19-1.04-.29-.11-.5-.16-.72.16-.21.32-.82 1.04-1 1.25-.19.21-.37.24-.69.08-.32-.16-1.36-.5-2.58-1.6-.95-.85-1.6-1.9-1.78-2.22-.19-.32-.02-.49.14-.65.14-.14.32-.37.48-.56.16-.19.21-.32.32-.53.1-.21.05-.4-.03-.56-.08-.16-.72-1.74-.99-2.38-.26-.62-.52-.54-.72-.55h-.61c-.21 0-.56.08-.85.4-.29.32-1.12 1.1-1.12 2.67 0 1.58 1.15 3.1 1.31 3.32.16.21 2.26 3.45 5.47 4.84.77.33 1.36.53 1.83.68.77.24 1.47.21 2.02.13.62-.09 1.9-.78 2.17-1.53.27-.75.27-1.4.19-1.53-.08-.13-.29-.21-.61-.37Z"/>
+    </svg>
+  </a>
+  </aside>
+)}
+
+<style>
+  .wa-flutuante {
+    position: fixed;
+    right: clamp(1rem, 3vw, 1.75rem);
+    bottom: calc(clamp(1rem, 3vw, 1.75rem) + var(--banner-altura, 0px));
+    z-index: 60;
+    display: grid;
+    place-items: center;
+    width: 3.25rem;
+    height: 3.25rem;
+    border-radius: 50%;
+    background-color: var(--color-green);
+    color: var(--color-surface);
+    border: 1px solid rgb(255 255 255 / 0.25);
+    box-shadow: 0 4px 14px rgb(33 45 32 / 0.25);
+    transition: background-color var(--transition), bottom var(--transition);
+  }
+  .wa-flutuante:hover { background-color: var(--color-green-deep); }
+  @media print { .wa-flutuante { display: none; } }
+</style>

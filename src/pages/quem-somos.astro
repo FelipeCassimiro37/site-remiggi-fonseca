@@ -1,0 +1,72 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import TeamCard from '../components/TeamCard.astro';
+import { quemSomos as q } from '../data/quem-somos';
+import { equipe } from '../data/equipe';
+import { preenchido } from '../config/site';
+import { pessoa, membrosPreenchidos } from '../lib/schema';
+
+const P = (v: string) => ({ pendente: !preenchido(v) });
+---
+<BaseLayout
+  titulo="Quem somos"
+  descricao="Conheça o escritório Remiggi & Fonseca: trajetória, valores e os advogados à frente da atuação em direito tributário, cível, trabalhista e contratual."
+  migalhas={[{ nome: 'Quem somos', caminho: '/quem-somos/' }]}
+  schema={membrosPreenchidos().map(pessoa)}
+>
+  <header class="page-header">
+    <div class="container container--prose">
+      <p class="eyebrow">Quem somos</p>
+      <hr class="rule" />
+      <h1 class:list={P(q.titulo)}>{q.titulo}</h1>
+      <hr class="rule" />
+      <p class:list={['lead', P(q.introducao)]}>{q.introducao}</p>
+    </div>
+  </header>
+
+  <section class="section historia" aria-labelledby="trajetoria-titulo">
+    <div class="container container--prose">
+      <h2 id="trajetoria-titulo">{q.trajetoriaTitulo}</h2>
+      <hr class="rule" />
+      {q.trajetoria.map((p) => <p class:list={P(p)}>{p}</p>)}
+    </div>
+  </section>
+
+  {equipe.length > 0 && (
+    <section class="section section--alt" aria-labelledby="equipe-titulo">
+      <div class="container">
+        <h2 id="equipe-titulo" class="eyebrow">{q.equipeTitulo}</h2>
+        <hr class="rule" />
+        <div class="equipe">
+          {equipe.map((m) => <TeamCard membro={m} />)}
+        </div>
+      </div>
+    </section>
+  )}
+
+  {q.valores.length > 0 && (
+    <section class="section section--green" aria-labelledby="valores-titulo">
+      <div class="container">
+        <h2 id="valores-titulo" class="eyebrow">{q.valoresTitulo}</h2>
+        <hr class="rule" />
+        <div class="valores">
+          {q.valores.map((v) => (
+            <div>
+              <h3 class:list={P(v.titulo)}>{v.titulo}</h3>
+              <p class:list={P(v.texto)}>{v.texto}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+</BaseLayout>
+
+<style>
+  .historia h2 { font-size: var(--text-2xl); }
+  .historia p + p { margin-top: var(--space-6); }
+  .equipe { display: flex; flex-direction: column; gap: var(--space-16); margin-top: var(--space-8); }
+  .valores { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr)); gap: var(--space-12); margin-top: var(--space-8); }
+  .valores p { margin-top: var(--space-3); }
+  .section--green .pendente { outline-color: rgb(255 255 255 / 0.5); }
+</style>

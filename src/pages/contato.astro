@@ -1,0 +1,95 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ContactForm from '../components/ContactForm.astro';
+import WhatsAppLink from '../components/WhatsAppLink.astro';
+import EmailLink from '../components/EmailLink.astro';
+import { site, preenchido } from '../config/site';
+
+const e = site.endereco;
+const redes = Object.entries(site.redes).filter(([, url]) => preenchido(url));
+const nomesRedes: Record<string, string> = { google: 'Ver no Google', instagram: 'Instagram', linkedin: 'LinkedIn', facebook: 'Facebook', youtube: 'YouTube' };
+---
+<BaseLayout
+  titulo="Contato"
+  descricao="Fale com o escritório Remiggi & Fonseca pelo WhatsApp, por e-mail ou pelo formulário de contato. Atendimento on-line em todo o Brasil."
+  migalhas={[{ nome: 'Contato', caminho: '/contato/' }]}
+>
+  <header class="page-header">
+    <div class="container container--prose">
+      <p class="eyebrow">Contato</p>
+      <hr class="rule" />
+      <h1>Vamos conversar sobre o seu caso.</h1>
+      <hr class="rule" />
+      <p class="lead">O primeiro contato é pelo WhatsApp ou pelo formulário abaixo. Envie um resumo da questão e retornaremos para orientar sobre os próximos passos.</p>
+    </div>
+  </header>
+
+  <section class="section contato-sec">
+    <div class="container contato-grid">
+      <div>
+        <h2 class="contato-h2">Envie sua solicitação</h2>
+        <ContactForm />
+      </div>
+
+      <aside class="contato-lateral" aria-labelledby="canais-titulo">
+        <h2 id="canais-titulo" class="contato-h2">Outros canais</h2>
+        {preenchido(site.contato.whatsapp) && (
+          <div class="contato-bloco">
+            <h3 class="eyebrow">WhatsApp</h3>
+            <p class="contato-numero">{site.contato.whatsappExibicao}</p>
+            <WhatsAppLink origem="contato" class="button button--solid" />
+          </div>
+        )}
+        {preenchido(site.contato.email) && (
+          <div class="contato-bloco">
+            <h3 class="eyebrow">E-mail</h3>
+            <p><EmailLink email={site.contato.email} origem="contato" class="link-underline" /></p>
+          </div>
+        )}
+        <div class="contato-bloco">
+          <h3 class="eyebrow">Abrangência</h3>
+          <p>{site.contato.abrangencia}</p>
+        </div>
+        <div class="contato-bloco">
+          <h3 class="eyebrow">Horário</h3>
+          <p>{site.contato.horario}</p>
+        </div>
+        {preenchido(e.logradouro) && (
+          <div class="contato-bloco">
+            <h3 class="eyebrow">Endereço</h3>
+            <address>
+              {[e.logradouro, e.bairro].filter(preenchido).join(', ')}<br />
+              {[e.cidade, e.uf].filter(preenchido).join('/')}{preenchido(e.cep) && ` · CEP ${e.cep}`}
+            </address>
+          </div>
+        )}
+        {redes.length > 0 && (
+          <div class="contato-bloco">
+            <h3 class="eyebrow">Perfis</h3>
+            <ul class="contato-redes">
+              {redes.map(([rede, url]) => (
+                <li><a href={url} class="link-underline" target="_blank" rel="noopener">{nomesRedes[rede] ?? rede}<span class="visually-hidden"> (abre em nova aba)</span></a></li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </aside>
+    </div>
+    <div class="container">
+      <p class="contato-aviso">O contato inicial não estabelece relação profissional nem implica contratação de serviços.</p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .contato-sec { padding-top: 0; }
+  .contato-grid { display: grid; grid-template-columns: 1fr 18rem; gap: var(--space-16); align-items: start; }
+  .contato-h2 { font-size: var(--text-2xl); margin-bottom: var(--space-6); }
+  .contato-bloco + .contato-bloco { margin-top: var(--space-8); }
+  .contato-bloco p, .contato-bloco address { margin-top: var(--space-2); color: var(--color-ink-soft); font-style: normal; }
+  .contato-numero { font-family: var(--font-display); font-size: var(--text-2xl); color: var(--color-green) !important; margin-bottom: var(--space-4); }
+  .contato-bloco a { word-break: break-all; }
+  .contato-redes { list-style: none; margin-top: var(--space-2); display: grid; gap: var(--space-2); }
+  .contato-aviso { margin-top: var(--space-16); font-size: var(--text-xs); color: var(--color-ink-soft); max-width: 32rem; }
+  @media (width <= 52rem) { .contato-grid { grid-template-columns: 1fr; gap: var(--space-12); } }
+</style>

@@ -1,0 +1,105 @@
+---
+/**
+ * Formulário de contato.
+ * - Com a chave do Web3Forms configurada (src/config/site.ts): envia por e-mail via Web3Forms.
+ * - Sem a chave: monta a mensagem e abre o WhatsApp com o texto preenchido.
+ * A lógica de envio está em src/scripts/formulario.ts.
+ */
+import { servicos } from '../data/servicos';
+---
+<form class="form" id="form-contato" novalidate data-form-contato>
+  <div class="form__campo">
+    <label for="f-nome">Nome <span aria-hidden="true">*</span></label>
+    <input id="f-nome" name="nome" type="text" autocomplete="name" required maxlength="120" aria-describedby="f-nome-erro" />
+    <p class="form__erro" id="f-nome-erro" data-erro-para="nome" hidden></p>
+  </div>
+
+  <div class="form__campo">
+    <label for="f-telefone">Telefone / WhatsApp <span aria-hidden="true">*</span></label>
+    <input
+      id="f-telefone"
+      name="telefone"
+      type="tel"
+      inputmode="tel"
+      autocomplete="tel"
+      required
+      maxlength="30"
+      placeholder="(31) 90000-0000"
+      aria-describedby="f-telefone-erro"
+    />
+    <p class="form__erro" id="f-telefone-erro" data-erro-para="telefone" hidden></p>
+  </div>
+
+  <div class="form__campo">
+    <label for="f-assunto">Assunto <span aria-hidden="true">*</span></label>
+    <select id="f-assunto" name="assunto" required aria-describedby="f-assunto-erro">
+      <option value="">Selecione</option>
+      {servicos.map((s) => <option value={s.titulo}>{s.titulo}</option>)}
+      <option value="Outro">Outro</option>
+    </select>
+    <p class="form__erro" id="f-assunto-erro" data-erro-para="assunto" hidden></p>
+  </div>
+
+  <div class="form__campo">
+    <label for="f-mensagem">Resumo da solicitação <span aria-hidden="true">*</span></label>
+    <textarea id="f-mensagem" name="mensagem" rows="5" required maxlength="2000" aria-describedby="f-mensagem-dica f-mensagem-erro"></textarea>
+    <p class="form__dica" id="f-mensagem-dica">Descreva a situação em poucas linhas. Não envie documentos ou dados sensíveis neste campo.</p>
+    <p class="form__erro" id="f-mensagem-erro" data-erro-para="mensagem" hidden></p>
+  </div>
+
+  <!-- Campo anti-spam (honeypot): invisível para pessoas; robôs costumam preenchê-lo. -->
+  <div class="form__hp" aria-hidden="true">
+    <label for="f-botcheck">Não preencha este campo</label>
+    <input id="f-botcheck" name="botcheck" type="checkbox" tabindex="-1" autocomplete="off" />
+  </div>
+
+  <div class="form__campo form__campo--check">
+    <input id="f-consentimento" name="consentimento" type="checkbox" required aria-describedby="f-consentimento-erro" />
+    <label for="f-consentimento">
+      Li e concordo com a <a href="/politica-de-privacidade/" class="link-underline" target="_blank" rel="noopener">Política de Privacidade<span class="visually-hidden"> (abre em nova aba)</span></a> e autorizo o uso destes dados para resposta à minha solicitação. <span aria-hidden="true">*</span>
+    </label>
+    <p class="form__erro" id="f-consentimento-erro" data-erro-para="consentimento" hidden></p>
+  </div>
+
+  <p class="form__obrigatorio"><span aria-hidden="true">*</span> Campos obrigatórios.</p>
+
+  <button type="submit" class="button button--solid form__enviar" data-rotulo-padrao="Enviar">Enviar</button>
+
+  <div class="form__status" role="status" aria-live="polite" tabindex="-1" data-form-status></div>
+</form>
+
+<style>
+  .form { display: grid; gap: var(--space-6); max-width: 36rem; }
+  .form__campo { display: grid; gap: var(--space-2); }
+  .form label { font-size: var(--text-sm); font-weight: 600; color: var(--color-ink); }
+  .form input:not([type='checkbox']),
+  .form select,
+  .form textarea {
+    width: 100%;
+    min-height: 2.9rem;
+    padding: var(--space-3) var(--space-4);
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-ink-soft);
+    border-radius: var(--radius);
+    font-size: var(--text-base);
+    line-height: var(--leading-normal);
+  }
+  .form textarea { resize: vertical; min-height: 8rem; }
+  .form input::placeholder { color: #6f6f66; }
+  .form :is(input, select, textarea):focus-visible { outline: 2px solid var(--color-green); outline-offset: 1px; border-color: var(--color-green); }
+  .form [aria-invalid='true'] { border-color: var(--color-error) !important; }
+  .form__dica { font-size: var(--text-xs); color: var(--color-ink-soft); }
+  .form__erro { font-size: var(--text-sm); color: var(--color-error); font-weight: 600; }
+  .form__campo--check { grid-template-columns: auto 1fr; align-items: start; column-gap: var(--space-3); }
+  .form__campo--check input { width: 1.25rem; height: 1.25rem; margin-top: 0.2em; accent-color: var(--color-green); }
+  .form__campo--check label { font-weight: 400; line-height: var(--leading-normal); }
+  .form__campo--check .form__erro { grid-column: 1 / -1; }
+  .form__hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+  .form__obrigatorio { font-size: var(--text-xs); color: var(--color-ink-soft); }
+  .form__enviar { justify-self: start; }
+  .form__status:empty { display: none; }
+  .form__status { padding: var(--space-4) var(--space-6); border-left: 3px solid var(--color-green); background-color: var(--color-surface); font-size: var(--text-sm); line-height: var(--leading-normal); }
+  .form__status:focus { outline: none; }
+  .form__status[data-tipo='erro'] { border-color: var(--color-error); }
+  .form__status :global(a) { font-weight: 600; border-bottom: 1px solid currentColor; }
+</style>

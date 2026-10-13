@@ -1,0 +1,86 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import AreaCard from '../components/AreaCard.astro';
+import WhatsAppLink from '../components/WhatsAppLink.astro';
+import Testimonials from '../components/Testimonials.astro';
+import FAQ from '../components/FAQ.astro';
+import { servicos } from '../data/servicos';
+import { home } from '../data/home';
+import { faq } from '../data/faq';
+import { faqPage } from '../lib/schema';
+---
+<BaseLayout
+  descricao="Escritório de advocacia com atuação em direito tributário, cível, trabalhista e contratual, no consultivo e no contencioso, para empresas e pessoas físicas."
+  schema={[faqPage(faq)]}
+>
+  <section class="hero">
+    <div class="container container--prose">
+      <p class="eyebrow">{home.eyebrow}</p>
+      <hr class="rule" />
+      <h1 class="hero__title">{home.titulo}</h1>
+      <hr class="rule" />
+      <p class="lead">{home.lead}</p>
+      <div class="hero__acoes">
+        <WhatsAppLink origem="topo" class="button button--solid" />
+        <a href="/areas-de-atuacao/" class="link-underline">Ver áreas de atuação</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--alt" aria-labelledby="areas-titulo">
+    <div class="container">
+      <div class="section-head">
+        <h2 id="areas-titulo" class="eyebrow">Áreas de atuação</h2>
+        <hr class="rule" />
+        <p class="section-head__text">{home.areasIntro}</p>
+      </div>
+      <div class="grid-areas">
+        {servicos.map((s, i) => <AreaCard servico={s} indice={i + 1} />)}
+      </div>
+      <p class="section-foot"><a href="/areas-de-atuacao/" class="link-underline">Conhecer cada área em detalhe</a></p>
+    </div>
+  </section>
+
+  <section class="section section--green" aria-labelledby="como-titulo">
+    <div class="container">
+      <h2 id="como-titulo" class="eyebrow">Como trabalhamos</h2>
+      <hr class="rule" />
+      <div class="abordagem">
+        {home.comoTrabalhamos.map((item) => (
+          <div>
+            <h3>{item.titulo}</h3>
+            <p>{item.texto}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <Testimonials />
+
+  <FAQ />
+
+  <section class="section section--alt cta" aria-labelledby="cta-titulo">
+    <div class="container">
+      <h2 id="cta-titulo">{home.ctaTitulo}</h2>
+      <p class="lead">{home.ctaTexto}</p>
+      <WhatsAppLink origem="chamada-inicio" class="button button--solid" />
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero { padding-block: var(--space-24) var(--space-16); }
+  .hero .rule { margin-block: var(--space-4); }
+  .hero__title { max-width: 20ch; }
+  .hero__acoes { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-8); margin-top: var(--space-12); }
+  .grid-areas { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-6); }
+  @media (width <= 60rem) { .grid-areas { grid-template-columns: repeat(2, 1fr); } }
+  @media (width <= 34rem) { .grid-areas { grid-template-columns: 1fr; } }
+  .section-foot { margin-top: var(--space-8); }
+  .abordagem { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(16rem, 100%), 1fr)); gap: var(--space-12); margin-top: var(--space-8); }
+  .abordagem p { margin-top: var(--space-3); }
+  .cta { text-align: center; }
+  .cta .lead { margin: var(--space-4) auto var(--space-8); }
+  @media (width <= 40rem) { .hero { padding-block: var(--space-16) var(--space-12); } }
+</style>

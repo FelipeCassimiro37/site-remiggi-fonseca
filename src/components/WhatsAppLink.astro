@@ -1,0 +1,32 @@
+---
+/**
+ * Link de WhatsApp rastreado.
+ * `origem` identifica a seção do clique no GA4 (ex.: topo, rodape, flutuante, servico-direito-civel).
+ * Se o número não estiver configurado em src/config/site.ts, nada é exibido.
+ */
+import { linkWhatsApp } from '../config/site';
+
+interface Props {
+  origem: string;
+  mensagem?: string;
+  class?: string;
+  rotulo?: string;
+  [key: string]: unknown;
+}
+const { origem, mensagem, class: className, rotulo = 'Falar no WhatsApp', ...rest } = Astro.props;
+const href = linkWhatsApp(mensagem);
+---
+{href && (
+  <a
+    href={href}
+    class={className}
+    target="_blank"
+    rel="noopener"
+    data-track="whatsapp"
+    data-origem={origem}
+    {...rest}
+  >
+    <slot>{rotulo}</slot>
+    <span class="visually-hidden"> (abre em nova aba)</span>
+  </a>
+)}

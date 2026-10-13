@@ -1,0 +1,87 @@
+---
+import Logo from './Logo.astro';
+import WhatsAppLink from './WhatsAppLink.astro';
+import EmailLink from './EmailLink.astro';
+import { site, preenchido } from '../config/site';
+import { navegacao } from '../lib/navegacao';
+
+const nomesRedes: Record<string, string> = {
+  google: 'Ver no Google',
+  instagram: 'Instagram',
+  linkedin: 'LinkedIn',
+  facebook: 'Facebook',
+  youtube: 'YouTube',
+};
+const redes = Object.entries(site.redes).filter(([, url]) => preenchido(url));
+const e = site.endereco;
+const temEndereco = preenchido(e.logradouro);
+const ano = new Date().getFullYear();
+---
+<footer class="site-footer">
+  <div class="container container--wide">
+    <div class="site-footer__grid">
+      <div>
+        <a href="/" class="site-footer__logo" aria-label="Remiggi & Fonseca — página inicial"><Logo completo /></a>
+        <p class="site-footer__tagline">{site.descricaoRodape}</p>
+      </div>
+
+      <nav class="site-footer__col" aria-labelledby="rodape-nav">
+        <h2 id="rodape-nav" class="eyebrow">Navegação</h2>
+        <ul>
+          {navegacao.map((item) => <li><a href={item.href}>{item.nome}</a></li>)}
+          <li><a href="/politica-de-privacidade/">Política de Privacidade</a></li>
+          <li><button type="button" class="site-footer__cookies" data-abrir-cookies>Preferências de cookies</button></li>
+        </ul>
+      </nav>
+
+      <div class="site-footer__col">
+        <h2 class="eyebrow">Contato</h2>
+        <ul>
+          {preenchido(site.contato.whatsapp) && (
+            <li><WhatsAppLink origem="rodape">WhatsApp · {site.contato.whatsappExibicao}</WhatsAppLink></li>
+          )}
+          {preenchido(site.contato.email) && (
+            <li><EmailLink email={site.contato.email} origem="rodape" /></li>
+          )}
+          {preenchido(site.contato.horario) && <li>{site.contato.horario}</li>}
+          {temEndereco && (
+            <li>
+              <address>
+                {[e.logradouro, e.bairro].filter(preenchido).join(', ')}<br />
+                {[e.cidade, e.uf].filter(preenchido).join('/')}{preenchido(e.cep) && ` · CEP ${e.cep}`}
+              </address>
+            </li>
+          )}
+          {redes.map(([rede, url]) => (
+            <li><a href={url} target="_blank" rel="noopener">{nomesRedes[rede] ?? rede}<span class="visually-hidden"> (abre em nova aba)</span></a></li>
+          ))}
+        </ul>
+      </div>
+    </div>
+
+    <div class="site-footer__baseline">
+      <p>© {ano} {site.nomeCompleto}. Todos os direitos reservados.</p>
+      <p>
+        {[preenchido(site.cnpj) && `CNPJ ${site.cnpj}`, preenchido(site.registroOab) && site.registroOab].filter(Boolean).join(' · ')}
+      </p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer { background-color: var(--color-green-deep); color: rgb(255 255 255 / 0.85); font-size: var(--text-sm); padding-block: var(--space-24) var(--space-8); }
+  .site-footer__grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: var(--space-12); padding-bottom: var(--space-12); border-bottom: 1px solid rgb(255 255 255 / 0.16); }
+  .site-footer__logo { display: inline-block; color: #fff; font-size: 0.7rem; }
+  .site-footer__tagline { margin-top: var(--space-6); max-width: 22rem; color: rgb(255 255 255 / 0.72); }
+  .site-footer .eyebrow { color: var(--color-accent-on-dark); }
+  .site-footer__col ul { list-style: none; display: flex; flex-direction: column; gap: var(--space-2); margin-top: var(--space-4); }
+  .site-footer a, .site-footer__cookies { border-bottom: 1px solid transparent; transition: border-color var(--transition), color var(--transition); }
+  .site-footer a:hover, .site-footer__cookies:hover { color: #fff; border-color: rgb(255 255 255 / 0.5); }
+  .site-footer__cookies { background: none; border-top: 0; border-inline: 0; padding: 0; cursor: pointer; text-align: left; font-size: inherit; color: inherit; }
+  .site-footer address { font-style: normal; }
+  .site-footer__baseline { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--space-2) var(--space-8); margin-top: var(--space-8); font-size: var(--text-xs); color: rgb(255 255 255 / 0.68); }
+  @media (width <= 52rem) {
+    .site-footer { padding-top: var(--space-16); }
+    .site-footer__grid { grid-template-columns: 1fr; gap: var(--space-8); }
+  }
+</style>
